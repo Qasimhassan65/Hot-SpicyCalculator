@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hot & Spicy - POS System</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #FFFBF2;
+        }
+        .container {
+            background-color: #FFFFFF;
+            border-radius: 12px;
+            padding: 20px;
+            width: 90%;
+            max-width: 400px;
+            box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+        h1 {
+            color: #FF4500;
+            font-size: 24px;
+            margin-bottom: 15px;
+        }
+        .item {
+            margin: 15px 0;
+            display: flex;
+            align-items: center;
+        }
+        label {
+            font-weight: bold;
+            color: #444;
+            margin-bottom: 5px;
+            display: block;
+            text-align: left;
+        }
+        select {
+            width: 100%;
+            padding: 8px;
+            border-radius: 8px;
+            border: 1px solid #ddd;
+            text-align: center;
+            font-size: 14px;
+            outline: none;
+        }
+        .quantity-controls {
+            display: flex;
+            align-items: center;
+            margin-left: 10px;
+        }
+        .quantity-controls button {
+            width: 30px;
+            height: 30px;
+            font-size: 18px;
+            background-color: #FF6347;
+            color: #FFFFFF;
+            border: none;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 5px;
+        }
+        .quantity-controls input {
+            width: 40px;
+            text-align: center;
+            font-size: 16px;
+            border: none;
+            outline: none;
+            background-color: #F5F5F5;
+            border-radius: 8px;
+            padding: 5px;
+            margin-left: 5px;
+        }
+        button {
+            width: 100%;
+            padding: 12px;
+            font-size: 16px;
+            background-color: #FF6347;
+            color: #FFFFFF;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            margin-top: 20px;
+        }
+        button:hover {
+            background-color: #FF4500;
+        }
+        .discount-section, .cash-section {
+            margin-top: 15px;
+            text-align: left;
+        }
+        .discount-section input[type="checkbox"] {
+            margin-right: 8px;
+        }
+        .cash-section input[type="number"] {
+            width: 100%;
+            padding: 8px;
+            border-radius: 8px;
+            border: 1px solid #ddd;
+            font-size: 16px;
+            outline: none;
+            margin-top: 5px;
+        }
+        .total {
+            font-size: 22px;
+            font-weight: bold;
+            color: #333;
+            margin-top: 15px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        
+        <h1>Hot & Spicy</h1>
+
+        <!-- Roll Paratha -->
+        <div class="item">
+            <select id="rollParatha" onchange="updateTotal()">
+                <option value="0">Roll Paratha</option>
+                <option value="500">Boom Boom Mayo Garlic (L) - 500 Rs</option>
+                <option value="550">Boom Boom Spicy/Cheese (L) - 550 Rs</option>
+                <option value="460">Boom Boom Mayo Garlic (M) - 460 Rs</option>
+                <option value="480">Boom Boom Spicy/Cheese (M) - 480 Rs</option>
+                <option value="380">Boom Boom Mayo Garlic (S) - 380 Rs</option>
+                <option value="400">Boom Boom Spicy/Cheese (S) - 400 Rs</option>
+            </select>
+            <div class="quantity-controls">
+                <button onclick="decreaseQuantity('rollParathaQty')">-</button>
+                <input type="number" id="rollParathaQty" min="0" value="0" readonly onchange="updateTotal()">
+                <button onclick="increaseQuantity('rollParathaQty')">+</button>
+            </div>
+        </div>
+
+        <!-- Biryani -->
+        <div class="item">
+            <select id="biryani" onchange="updateTotal()">
+                <option value="0">Biryani</option>
+                <option value="300">Sada Biryani - 300 Rs</option>
+                <option value="400">Chicken Biryani - 400 Rs</option>
+                <option value="550">Special Biryani - 550 Rs</option>
+            </select>
+            <div class="quantity-controls">
+                <button onclick="decreaseQuantity('biryaniQty')">-</button>
+                <input type="number" id="biryaniQty" min="0" value="0" readonly onchange="updateTotal()">
+                <button onclick="increaseQuantity('biryaniQty')">+</button>
+            </div>
+        </div>
+
+        <!-- BBQ -->
+        <div class="item">
+            <select id="bbq" onchange="updateTotal()">
+                <option value="0">BBQ</option>
+                <option value="450">Chicken Tikka - 450 Rs</option>
+                <option value="500">Chicken Boti (10 pc) - 500 Rs</option>
+                <option value="550">Malai Boti (10 pc) - 550 Rs</option>
+            </select>
+            <div class="quantity-controls">
+                <button onclick="decreaseQuantity('bbqQty')">-</button>
+                <input type="number" id="bbqQty" min="0" value="0" readonly onchange="updateTotal()">
+                <button onclick="increaseQuantity('bbqQty')">+</button>
+            </div>
+        </div>
+
+        <!-- Deals -->
+        <div class="item">
+            <select id="deals" onchange="updateTotal()">
+                <option value="0">Deals</option>
+                <option value="1200">Deal 1 - 1200 Rs</option>
+                <option value="1100">Deal 2 - 1100 Rs</option>
+                <option value="1100">Deal 3 - 1100 Rs</option>
+                <option value="1050">Deal 4 - 1050 Rs</option>
+            </select>
+        </div>
+
+        <!-- Discount and Cash -->
+        <div class="discount-section">
+            <label><input type="checkbox" id="discount" onchange="updateTotal()"> Apply 5% Discount</label>
+        </div>
+        <div class="cash-section">
+            <label for="cashGiven">Cash Given</label>
+            <input type="number" id="cashGiven" min="0" placeholder="Enter amount received" onchange="updateTotal()">
+        </div>
+
+        <!-- Display Total and Change -->
+        <div class="total" id="totalDisplay">Total: 0 Rs</div>
+        <div class="total" id="changeDisplay">Change: 0 Rs</div>
+
+        <!-- Confirm Order Button -->
+        <button onclick="confirmOrder()">Confirm Order</button>
+    </div>
+
+    <script>
+        function increaseQuantity(id) {
+            const qty = document.getElementById(id);
+            qty.value = parseInt(qty.value) + 1;
+            updateTotal();
+        }
+        function decreaseQuantity(id) {
+            const qty = document.getElementById(id);
+            if (qty.value > 0) qty.value = parseInt(qty.value) - 1;
+            updateTotal();
+        }
+
+        function updateTotal() {
+            const rollParathaPrice = parseInt(document.getElementById("rollParatha").value);
+            const biryaniPrice = parseInt(document.getElementById("biryani").value);
+            const bbqPrice = parseInt(document.getElementById("bbq").value);
+            const dealsPrice = parseInt(document.getElementById("deals").value);
+
+            const rollParathaQty = parseInt(document.getElementById("rollParathaQty").value) || 0;
+            const biryaniQty = parseInt(document.getElementById("biryaniQty").value) || 0;
+            const bbqQty = parseInt(document.getElementById("bbqQty").value) || 0;
+
+            let total = (rollParathaPrice * rollParathaQty) +
+                        (biryaniPrice * biryaniQty) +
+                        (bbqPrice * bbqQty) +
+                        dealsPrice;
+
+            const discountCheckbox = document.getElementById("discount");
+            if (discountCheckbox.checked) total *= 0.95;
+
+            const cashGiven = parseFloat(document.getElementById("cashGiven").value) || 0;
+            const change = cashGiven - total;
+
+            document.getElementById("totalDisplay").textContent = `Total: ${Math.round(total)} Rs`;
+            document.getElementById("changeDisplay").textContent = `Change: ${Math.round(change)} Rs`;
+        }
+
+        function confirmOrder() {
+            alert("Order Confirmed! Thank you for your purchase.");
+        }
+    </script>
+</body>
+</html>
